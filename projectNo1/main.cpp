@@ -8,6 +8,7 @@
 #include "FsM.h"
 #include "Robin_Karp.h"
 #include "KMP.h"
+#include "GusfieldZ.h"
 using namespace std;
 
 string RandomString(int len)
@@ -37,6 +38,7 @@ int main()
     nanoseconds total_rabin_karp(0), average_rabin_karp(0);
     nanoseconds total_FSM(0), average_FSM(0);
     nanoseconds total_KMP(0), average_KMP(0);
+    nanoseconds total_GusfieldZ(0), average_GusfieldZ(0);
     int q = 101;
 /*
     //reading from file
@@ -54,7 +56,7 @@ int main()
     std::getline(cin, pat);
     cout<<endl;
 
-    cout << "\n Size\t Brute-Force\t Sunday\t Rabin-Karp\t FSM\t KMP" << endl;
+    cout << "\n Size\t Brute-Force\t Sunday\t Rabin-Karp\t FSM\t KMP \tGusfieldZ " << endl;
     cout << "------------------------------------------------------------------------------------------------------------\n";
     for (int j=N; j<1000000; j+=50000)
     {
@@ -101,6 +103,14 @@ int main()
             end = chrono::steady_clock::now();
             nanoseconds time_KMP(end - begin);
             total_KMP += time_KMP;
+
+            begin = std::chrono::steady_clock::now();
+
+            zAlgorithm(text, pat);
+
+            end = chrono::steady_clock::now();
+            nanoseconds time_GusfieldZ(end - begin);
+            total_GusfieldZ += time_GusfieldZ;
         }
 
         // time for random data
@@ -109,11 +119,12 @@ int main()
         average_rabin_karp= total_rabin_karp/100;
         average_FSM= total_FSM/100;
         average_KMP= total_KMP/100;
+        average_GusfieldZ = total_GusfieldZ/100;
 
 
 
              cout << j << " \t\t " << average_brute_force.count() << " \t\t " << average_sunday.count()<<  " \t\t "
-             << average_rabin_karp.count() << " \t\t " << average_FSM.count() << " \t\t " << average_KMP.count() << endl;
+             << average_rabin_karp.count() << " \t\t " << average_FSM.count() << " \t\t " << average_KMP.count()<< " \t\t " << average_GusfieldZ.count() << endl;
 
 
 
